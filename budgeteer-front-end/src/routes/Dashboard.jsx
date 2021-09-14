@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { logoutUser } from "../redux/user/userActions";
+import NavBar from "../components/NavBar";
+import BudgetContainer from "../containers/BudgetContainer";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -14,16 +15,15 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <h1>DASHBOARD PAGE</h1>
-        <button onClick={this.props.logoutUser}>Logout</button>
+        <NavBar />
+        <BudgetContainer />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const { user, loggedIn } = state;
-  return { user, loggedIn };
+  return { loggedIn: state.loggedIn };
 };
 
-export default connect(mapStateToProps, { logoutUser })(Dashboard);
+export default connect(mapStateToProps)(Dashboard);
