@@ -1,6 +1,6 @@
 class CreateTramsactions < ActiveRecord::Migration[6.1]
   def change
-    create_table :tramsactions do |t|
+    create_table :transactions do |t|
       t.string :name
       t.float :outflow
       t.float :inflow

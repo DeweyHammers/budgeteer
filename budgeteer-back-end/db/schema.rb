@@ -26,14 +26,14 @@ ActiveRecord::Schema.define(version: 2021_09_13_222149) do
     t.index ["user_id"], name: "index_budgets_on_user_id"
   end
 
-  create_table "tramsactions", force: :cascade do |t|
+  create_table "transactions", force: :cascade do |t|
     t.string "name"
     t.float "outflow"
     t.float "inflow"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_tramsactions_on_user_id"
+    t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -46,5 +46,5 @@ ActiveRecord::Schema.define(version: 2021_09_13_222149) do
   end
 
   add_foreign_key "budgets", "users"
-  add_foreign_key "tramsactions", "users"
+  add_foreign_key "transactions", "users"
 end
