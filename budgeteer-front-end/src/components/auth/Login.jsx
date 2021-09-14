@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { Button, Grid } from "@material-ui/core";
+import { AccountCircle, Lock } from "@material-ui/icons/";
+import FormItem from "./FormItem";
 
 const DEFAULT_STATE = {
   username: "",
@@ -20,27 +23,32 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            value={this.state.username}
-            onChange={this.handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            required
-          />
-          <input type="submit" value="Login" />
-        </form>
-      </div>
+      <form onSubmit={this.handleSubmit}>
+        <FormItem
+          name="username"
+          type="text"
+          placeholder="Username"
+          Icon={AccountCircle}
+          handleChange={this.handleChange}
+          value={this.state.username}
+        />
+        <FormItem
+          name="password"
+          type="password"
+          placeholder="Password"
+          Icon={Lock}
+          handleChange={this.handleChange}
+          value={this.state.password}
+        />
+        <Grid container>
+          <Grid item xs={1} />
+          <Grid item xs={11}>
+            <Button type="submit" fullWidth variant="contained" color="primary">
+              Login
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
     );
   }
 }

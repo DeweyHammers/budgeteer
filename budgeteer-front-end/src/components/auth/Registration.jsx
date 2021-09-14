@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { Button, Grid } from "@material-ui/core";
+import { AccountCircle, Email, Lock } from "@material-ui/icons/";
+import FormItem from "./FormItem";
 
 const DEFAULT_STATE = {
   username: "",
@@ -22,43 +25,48 @@ export default class Registration extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            value={this.state.username}
-            onChange={this.handleChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={this.state.email}
-            onChange={this.handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="password_confirmation"
-            placeholder="Password Confirmation"
-            value={this.state.password_confirmation}
-            onChange={this.handleChange}
-            required
-          />
-          <input type="submit" value="Sign Up" />
-        </form>
-      </div>
+      <form onSubmit={this.handleSubmit}>
+        <FormItem
+          name="username"
+          type="text"
+          placeholder="Username"
+          Icon={AccountCircle}
+          handleChange={this.handleChange}
+          value={this.state.username}
+        />
+        <FormItem
+          name="email"
+          type="text"
+          placeholder="Email"
+          Icon={Email}
+          handleChange={this.handleChange}
+          value={this.state.email}
+        />
+        <FormItem
+          name="password"
+          type="password"
+          placeholder="Password"
+          Icon={Lock}
+          handleChange={this.handleChange}
+          value={this.state.password}
+        />
+        <FormItem
+          name="password_confirmation"
+          type="password"
+          placeholder="Password Confirmation"
+          Icon={Lock}
+          handleChange={this.handleChange}
+          value={this.state.password_confirmation}
+        />
+        <Grid container>
+          <Grid item xs={1} />
+          <Grid item xs={11}>
+            <Button type="submit" fullWidth variant="contained" color="primary">
+              Sign Up
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
     );
   }
 }

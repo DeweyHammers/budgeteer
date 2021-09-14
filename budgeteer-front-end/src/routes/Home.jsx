@@ -7,6 +7,8 @@ import {
 } from "../redux/user/userActions";
 import Registration from "../components/auth/Registration";
 import Login from "../components/auth/Login";
+import { Button, Grid, CssBaseline, Typography } from "@material-ui/core";
+import classes from "./css/Home.module.css";
 
 class Home extends Component {
   state = {
@@ -35,21 +37,33 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
-        <p>{this.props.loading && "Loading"}</p>
-        <p>
-          {this.props.errors &&
-            `There was an Error while fetching your data. Error code: ${this.props.errors}`}
-        </p>
-        {this.state.switchLogin ? (
-          <Login handleLogin={this.handleLogin} />
-        ) : (
-          <Registration handleRegistration={this.handleRegistration} />
-        )}
-        <button onClick={this.handleShowLogin}>
-          {this.state.switchLogin ? "Sign Up" : "Go back to login"}
-        </button>
-      </div>
+      <Grid container className={classes.container}>
+        <CssBaseline />
+        <Grid item xs={false} sm={4} md={7} className={classes.image} />
+        <Grid item xs={12} sm={8} md={5} elevation={6}>
+          <div className={classes.form}>
+            <Typography variant="h1">Budgeteer</Typography>
+            {this.state.switchLogin ? (
+              <Login handleLogin={this.handleLogin} />
+            ) : (
+              <Registration handleRegistration={this.handleRegistration} />
+            )}
+            <Grid container>
+              <Grid item xs={1} />
+              <Grid item xs={11}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={this.handleShowLogin}
+                  className={classes.button}
+                >
+                  {this.state.switchLogin ? "Create Account" : "Login Page"}
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
+        </Grid>
+      </Grid>
     );
   }
 }
