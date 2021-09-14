@@ -28,6 +28,11 @@ const userReducers = (state = user, action) => {
         loading: false,
         errors: action.errors,
       };
+    case "CLOSE_ERROR":
+      return {
+        ...state,
+        errors: false,
+      };
     default:
       return state;
   }

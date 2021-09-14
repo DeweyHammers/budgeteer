@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Button, Grid } from "@material-ui/core";
 import { AccountCircle, Email, Lock } from "@material-ui/icons/";
 import FormItem from "./FormItem";
+import { registerUser } from "../../redux/user/userActions";
+import { connect } from "react-redux";
 
 const DEFAULT_STATE = {
   username: "",
@@ -10,7 +12,7 @@ const DEFAULT_STATE = {
   password_confirmation: "",
 };
 
-export default class Registration extends Component {
+class Registration extends Component {
   state = DEFAULT_STATE;
 
   handleChange = (event) => {
@@ -19,7 +21,7 @@ export default class Registration extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.handleRegistration(this.state);
+    this.props.registerUser(this.state);
     this.setState(DEFAULT_STATE);
   };
 
@@ -61,7 +63,7 @@ export default class Registration extends Component {
         <Grid container>
           <Grid item xs={1} />
           <Grid item xs={11}>
-            <Button type="submit" fullWidth variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="primary" fullWidth>
               Sign Up
             </Button>
           </Grid>
@@ -70,3 +72,5 @@ export default class Registration extends Component {
     );
   }
 }
+
+export default connect(null, { registerUser })(Registration);

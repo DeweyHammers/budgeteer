@@ -7,7 +7,6 @@ const FormItem = (props) => {
   return (
     <Grid container alignItems="flex-end">
       <Grid item xs={1}>
-        {console.log(Icon)}
         <Icon style={{ marginBottom: "10px" }} fontSize="large" />
       </Grid>
       <Grid item xs={11}>

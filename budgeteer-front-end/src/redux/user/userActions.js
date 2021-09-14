@@ -19,7 +19,7 @@ export const registerUser = (user) => {
     fetchRegistration(user).then((data) => {
       data.status !== 500
         ? dispatch({ type: "LOGIN_USER", user: data.user })
-        : dispatch({ type: "ERROR", errors: data.status });
+        : dispatch({ type: "ERROR", errors: true });
     });
   };
 };
@@ -30,7 +30,7 @@ export const loginUser = (user) => {
     fetchLogin(user).then((data) => {
       data.status !== 401
         ? dispatch({ type: "LOGIN_USER", user: data.user })
-        : dispatch({ type: "ERROR", errors: data.status });
+        : dispatch({ type: "ERROR", errors: true });
     });
   };
 };
@@ -40,7 +40,13 @@ export const logoutUser = () => {
     fetchLogout().then((data) => {
       data.status === 200
         ? dispatch({ type: "LOGOUT_USER" })
-        : dispatch({ type: "ERROR", errors: data.status });
+        : dispatch({ type: "ERROR", errors: true });
     });
+  };
+};
+
+export const closeError = () => {
+  return {
+    type: "CLOSE_ERROR",
   };
 };

@@ -12,10 +12,15 @@
 }
 
 .form {
-  margin: 64px 32px;
+  margin: 150px 32px;
   text-align: center;
 }
 
-.button {
+.link {
   margin-top: 10px !important;
+  margin-bottom: 20px !important;
+}
+
+.linkSpacing {
+  margin-left: 100px !important;
 }
