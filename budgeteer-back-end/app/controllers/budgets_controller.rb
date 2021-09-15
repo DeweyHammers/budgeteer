@@ -11,6 +11,11 @@ class BudgetsController < ApplicationController
     end
   end
 
+  def destroy
+    budget = Budget.find_by(id: params[:id])
+    budget.destroy
+  end
+
   def budget_params
     params.require(:budget).permit(:name, :category, :cost_per_month, :assign_money, :user_id)
   end

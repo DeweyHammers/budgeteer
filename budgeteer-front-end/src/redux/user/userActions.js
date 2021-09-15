@@ -9,6 +9,7 @@ export const checkForLogin = (loggedinStatus) => {
       if (data.logged_in && loggedinStatus === false) {
         dispatch({ type: "LOGIN_USER", user: data.user });
         dispatch({ type: "ADD_BUDGET", budget: data.budget });
+        dispatch({ type: "LOAD_CATEGORIES" });
       }
     });
   };

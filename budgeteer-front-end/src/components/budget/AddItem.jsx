@@ -2,12 +2,11 @@ import React, { Component } from "react";
 
 const DEFAULT_STATE = {
   name: "",
-  category: "",
   cost_per_month: "",
   assign_money: "",
 };
 
-export default class AddbudgeItem extends Component {
+export default class AddItem extends Component {
   state = DEFAULT_STATE;
 
   handleChange = (event) => {
@@ -16,7 +15,7 @@ export default class AddbudgeItem extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.addItem(this.state);
+    this.props.addItem(this.state, this.props.category);
     this.setState(DEFAULT_STATE);
   };
 
@@ -28,13 +27,6 @@ export default class AddbudgeItem extends Component {
           placeholder="Item Name"
           name="name"
           value={this.state.name}
-          onChange={this.handleChange}
-        />
-        <input
-          type="text"
-          placeholder="category Name"
-          name="category"
-          value={this.state.category}
           onChange={this.handleChange}
         />
         <input

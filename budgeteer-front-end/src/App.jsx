@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
-import Home from "./routes/Home";
-import Dashboard from "./routes/Dashboard";
-import Profile from "./routes/Profile";
+import Home from "./components/routes/Home";
+import Dashboard from "./components/routes/Dashboard";
+import Profile from "./components/routes/Profile";
 import { connect } from "react-redux";
 import { checkForLogin } from "./redux/user/userActions";
 

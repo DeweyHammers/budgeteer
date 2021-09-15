@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { closeError } from "../redux/user/userActions";
-import Registration from "../components/auth/Registration";
-import Login from "../components/auth/Login";
+import { closeError } from "../../redux/user/userActions";
+import Registration from "../auth/Registration";
+import Login from "../auth/Login";
 import {
   Link,
   Grid,
@@ -11,7 +11,7 @@ import {
   LinearProgress,
 } from "@material-ui/core";
 import classes from "./styles/Home.module.css";
-import DisplayAlert from "../components/DisplayAlert";
+import DisplayAlert from "../DisplayAlert";
 
 class Home extends Component {
   state = {

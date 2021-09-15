@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import NavBar from "../components/NavBar";
-import BudgetContainer from "../containers/BudgetContainer";
+import NavBar from "../NavBar";
+import Budget from "../budget/Budget";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -17,7 +17,7 @@ class Dashboard extends Component {
       <div>
         <NavBar />
         <p>Amount: ${this.props.user.money}</p>
-        <BudgetContainer />
+        <Budget />
       </div>
     );
   }
