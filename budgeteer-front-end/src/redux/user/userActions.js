@@ -8,6 +8,7 @@ export const checkForLogin = (loggedinStatus) => {
     fetchLoggedin().then((data) => {
       if (data.logged_in && loggedinStatus === false) {
         dispatch({ type: "LOGIN_USER", user: data.user });
+        dispatch({ type: "ADD_BUDGET", budget: data.budget });
       }
     });
   };
@@ -19,7 +20,7 @@ export const registerUser = (user) => {
     fetchRegistration(user).then((data) => {
       data.status !== 500
         ? dispatch({ type: "LOGIN_USER", user: data.user })
-        : dispatch({ type: "ERROR", errors: true });
+        : dispatch({ type: "USER_ERROR", errors: true });
     });
   };
 };
@@ -28,9 +29,12 @@ export const loginUser = (user) => {
   return (dispatch) => {
     dispatch({ type: "LOADING_USER" });
     fetchLogin(user).then((data) => {
-      data.status !== 401
-        ? dispatch({ type: "LOGIN_USER", user: data.user })
-        : dispatch({ type: "ERROR", errors: true });
+      if (data.status !== 401) {
+        dispatch({ type: "LOGIN_USER", user: data.user });
+        dispatch({ type: "ADD_BUDGET", budget: data.budget });
+      } else {
+        dispatch({ type: "USER_ERROR", errors: true });
+      }
     });
   };
 };
@@ -40,7 +44,7 @@ export const logoutUser = () => {
     fetchLogout().then((data) => {
       data.status === 200
         ? dispatch({ type: "LOGOUT_USER" })
-        : dispatch({ type: "ERROR", errors: true });
+        : dispatch({ type: "USER_ERROR", errors: true });
     });
   };
 };

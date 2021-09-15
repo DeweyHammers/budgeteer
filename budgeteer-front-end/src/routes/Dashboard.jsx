@@ -16,6 +16,7 @@ class Dashboard extends Component {
     return (
       <div>
         <NavBar />
+        <p>Amount: ${this.props.user.money}</p>
         <BudgetContainer />
       </div>
     );
@@ -23,7 +24,8 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { loggedIn: state.loggedIn };
+  const { user, loggedIn } = state.userReducers;
+  return { user, loggedIn };
 };
 
 export default connect(mapStateToProps)(Dashboard);

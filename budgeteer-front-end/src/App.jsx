@@ -26,7 +26,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { loggedIn: state.loggedIn };
+  return { loggedIn: state.userReducers.loggedIn };
 };
 
 export default connect(mapStateToProps, { checkForLogin })(App);

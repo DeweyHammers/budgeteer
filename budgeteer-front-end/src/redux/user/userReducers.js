@@ -21,7 +21,7 @@ const userReducers = (state = user, action) => {
         user: {},
         loggedIn: false,
       };
-    case "ERROR":
+    case "USER_ERROR":
       return {
         ...state,
         loggedIn: false,

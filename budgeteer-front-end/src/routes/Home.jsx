@@ -84,7 +84,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { loggedIn, loading, errors } = state;
+  const { loggedIn, loading, errors } = state.userReducers;
   return { loggedIn, loading, errors };
 };
 
