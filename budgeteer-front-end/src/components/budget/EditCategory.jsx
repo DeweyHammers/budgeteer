@@ -9,24 +9,27 @@ class EditCategory extends Component {
     this.setState({ name: event.target.value });
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit = () => {
+    this.props.editCategory(this.state.name);
+    this.props.closeEdit();
+  };
+
+  handleRemove = () => {
+    this.props.removeCategory();
     this.props.closeEdit();
   };
 
   render() {
     return (
       <h1>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-          />
-          <input type="submit" value="Edit" />
-          <button>X</button>
-        </form>
+        <input
+          type="text"
+          name="name"
+          value={this.state.name}
+          onChange={this.handleChange}
+        />
+        <input type="submit" value="Edit" onClick={this.handleSubmit} />
+        <button onClick={this.handleRemove}>X</button>
       </h1>
     );
   }

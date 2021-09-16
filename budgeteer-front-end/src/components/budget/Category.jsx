@@ -3,7 +3,11 @@ import AddItem from "./AddItem";
 import Item from "./Item";
 import EditCategory from "./EditCategory";
 import { connect } from "react-redux";
-import { addItem } from "../../redux/budget/budgetActions";
+import {
+  addItem,
+  editCategory,
+  removeCategory,
+} from "../../redux/budget/budgetActions";
 
 class Category extends Component {
   state = {
@@ -45,6 +49,14 @@ class Category extends Component {
     );
   };
 
+  handleEditCategory = (name) => {
+    this.props.editCategory(this.props.category, name, this.props.items);
+  };
+
+  handleRemoveCategory = () => {
+    this.props.removeCategory(this.props.category, this.props.items);
+  };
+
   render() {
     return (
       <div>
@@ -54,6 +66,8 @@ class Category extends Component {
           <EditCategory
             closeEdit={this.handleShowEditCategory}
             category={this.props.category}
+            editCategory={this.handleEditCategory}
+            removeCategory={this.handleRemoveCategory}
           />
         )}
         <button onClick={this.handleShowAddItem}>Add Item</button>
@@ -87,4 +101,8 @@ const mapStateToProps = (state) => {
   return { user: state.userReducers.user };
 };
 
-export default connect(mapStateToProps, { addItem })(Category);
+export default connect(mapStateToProps, {
+  addItem,
+  editCategory,
+  removeCategory,
+})(Category);

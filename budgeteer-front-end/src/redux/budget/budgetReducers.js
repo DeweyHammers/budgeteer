@@ -55,6 +55,17 @@ const budgetReducers = (state = budget, action) => {
         loading: false,
         errors: false,
       };
+    case "EDIT_CATEGORY":
+      return {
+        ...state,
+        categories: [
+          ...state.categories.map((category) =>
+            category === action.category ? action.name : category
+          ),
+        ],
+        loading: false,
+        errors: false,
+      };
     case "REMOVE_ITEM":
       return {
         ...state,
@@ -73,7 +84,7 @@ const budgetReducers = (state = budget, action) => {
       };
     case "CLEAR_BUDGET":
       return { budget: [], categories: [], loading: false, errors: false };
-    case "BUDGER_ERROR":
+    case "BUDGET_ERROR":
       return {
         ...state,
         loading: false,
