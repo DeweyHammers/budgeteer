@@ -34,6 +34,27 @@ const budgetReducers = (state = budget, action) => {
         loading: false,
         errors: false,
       };
+    case "EDIT_ITEM":
+      return {
+        ...state,
+        budget: [
+          ...state.budget.map((item) => {
+            if (item.id === action.item.id) {
+              return {
+                ...item,
+                name: action.item.name,
+                amount: action.item.amount,
+                cost_per_month: action.item.cost_per_month,
+                assign_money: action.item.assign_money,
+              };
+            } else {
+              return item;
+            }
+          }),
+        ],
+        loading: false,
+        errors: false,
+      };
     case "REMOVE_ITEM":
       return {
         ...state,
@@ -41,6 +62,17 @@ const budgetReducers = (state = budget, action) => {
         loading: false,
         errors: false,
       };
+    case "REMOVE_CATEGORY":
+      return {
+        ...state,
+        categories: [
+          ...state.categories.filter(
+            (category) => category !== action.category
+          ),
+        ],
+      };
+    case "CLEAR_BUDGET":
+      return { budget: [], categories: [], loading: false, errors: false };
     case "BUDGER_ERROR":
       return {
         ...state,

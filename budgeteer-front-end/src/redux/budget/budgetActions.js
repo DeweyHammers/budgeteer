@@ -1,5 +1,6 @@
 import fetchAddItem from "../../providers/budget/fetchAddItem";
 import fetchRemoveItem from "../../providers/budget/fetchRemoveItem";
+import fetchEditItem from "../../providers/budget/fetchEditItem";
 
 export const addItem = (item) => {
   return (dispatch) => {
@@ -12,6 +13,17 @@ export const addItem = (item) => {
   };
 };
 
+export const editItem = (item) => {
+  return (dispatch) => {
+    dispatch({ type: "LOADING_BUDGET" });
+    fetchEditItem(item).then((data) => {
+      data.status !== 500
+        ? dispatch({ type: "EDIT_ITEM", item: data.budget })
+        : dispatch({ type: "BUDGER_ERROR" });
+    });
+  };
+};
+
 export const addCategory = ({ name }) => {
   return {
     type: "ADD_CATEGORY",
@@ -19,9 +31,17 @@ export const addCategory = ({ name }) => {
   };
 };
 
-export const removeItem = (id) => {
+export const removeItem = (item, category) => {
   return (dispatch) => {
     dispatch({ type: "LOADING_BUDGET" });
-    fetchRemoveItem(id).then(() => dispatch({ type: "REMOVE_ITEM", id }));
+    fetchRemoveItem(item.id).then((data) => {
+      if (data.status !== 500) {
+        dispatch({ type: "REMOVE_ITEM", id: item.id });
+        category.length === 1 &&
+          dispatch({ type: "REMOVE_CATEGORY", category: item.category });
+      } else {
+        dispatch({ type: "BUDGER_ERROR" });
+      }
+    });
   };
 };

@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2021_09_13_222149) do
   create_table "budgets", force: :cascade do |t|
     t.string "name"
     t.string "category"
+    t.float "amount"
     t.float "cost_per_month"
     t.float "assign_money"
     t.bigint "user_id", null: false
@@ -28,11 +29,14 @@ ActiveRecord::Schema.define(version: 2021_09_13_222149) do
 
   create_table "transactions", force: :cascade do |t|
     t.string "name"
+    t.string "category"
     t.float "outflow"
     t.float "inflow"
     t.bigint "user_id", null: false
+    t.bigint "budget_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["budget_id"], name: "index_transactions_on_budget_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
@@ -40,11 +44,11 @@ ActiveRecord::Schema.define(version: 2021_09_13_222149) do
     t.string "username"
     t.string "email"
     t.string "password_digest"
-    t.float "money"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "budgets", "users"
+  add_foreign_key "transactions", "budgets"
   add_foreign_key "transactions", "users"
 end

@@ -11,12 +11,28 @@ class BudgetsController < ApplicationController
     end
   end
 
+  def update
+    budget = Budget.find_by(id: params[:id])
+    if budget.update(budget_params)
+      render json: { 
+        status: :updated,
+        budget: budget
+      }
+    else
+      render json: { status: 500 }
+    end
+  end
+
   def destroy
     budget = Budget.find_by(id: params[:id])
-    budget.destroy
+    if budget.destroy 
+      render json: { status: 200 }
+    else
+      render json: { status: 500 }
+    end
   end
 
   def budget_params
-    params.require(:budget).permit(:name, :category, :cost_per_month, :assign_money, :user_id)
+    params.require(:budget).permit(:name, :amount, :category, :cost_per_month, :assign_money, :user_id)
   end
 end

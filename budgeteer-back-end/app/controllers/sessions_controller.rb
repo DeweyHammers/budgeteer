@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
       render json: {
         status: :created,
         logged_in: true,
-        user: { id: user.id, username: user.username, email: user.email, money: user.money },
+        user: { id: user.id, username: user.username, email: user.email },
         budget: user.budgets
       }
     else 
@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
     if @current_user
       render json: { 
         logged_in: true,
-        user: { id: @current_user.id, username: @current_user.username, email: @current_user.email, money: @current_user.money },
+        user: { id: @current_user.id, username: @current_user.username, email: @current_user.email },
         budget: @current_user.budgets
       }
     else

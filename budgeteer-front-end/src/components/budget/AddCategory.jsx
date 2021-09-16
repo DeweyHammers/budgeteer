@@ -10,6 +10,7 @@ export default class AddCategory extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     this.props.handleAddCategory(this.state);
+    this.props.closeAdd();
     this.setState({ name: "" });
   };
 

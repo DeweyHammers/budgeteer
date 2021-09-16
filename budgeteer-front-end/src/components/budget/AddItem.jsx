@@ -15,7 +15,8 @@ export default class AddItem extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.addItem(this.state, this.props.category);
+    this.props.addItem(this.state);
+    this.props.closeAdd();
     this.setState(DEFAULT_STATE);
   };
 
@@ -43,7 +44,7 @@ export default class AddItem extends Component {
           value={this.state.assign_money}
           onChange={this.handleChange}
         />
-        <input type="submit" value="Add Item" onChange={this.handleChange} />
+        <input type="submit" value="Add" onChange={this.handleChange} />
       </form>
     );
   }

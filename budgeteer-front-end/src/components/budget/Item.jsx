@@ -1,16 +1,43 @@
-import React from "react";
-import { connect } from "react-redux";
-import { removeItem } from "../../redux/budget/budgetActions";
+import React, { Component } from "react";
+import ShowItem from "./ShowItem";
+import EditItem from "./EditItem";
 
-const BudgetItem = ({ item, removeItem }) => {
-  return (
-    <tr>
-      <td>{item.name}</td>
-      <td>{item.cost_per_month}</td>
-      <td>{item.assign_money}</td>
-      <button onClick={() => removeItem(item.id)}>X</button>
-    </tr>
-  );
-};
+class Item extends Component {
+  state = {
+    showEdit: false,
+    checked: false,
+  };
 
-export default connect(null, { removeItem })(BudgetItem);
+  handleShowEdit = () => {
+    this.setState({
+      showEdit: !this.state.showEdit,
+      checked: !this.state.checked,
+    });
+  };
+
+  render() {
+    return (
+      <tr>
+        <td>
+          <input
+            type="checkbox"
+            value=""
+            checked={this.state.checked}
+            onChange={this.handleShowEdit}
+          />
+        </td>
+        {!this.state.showEdit ? (
+          <ShowItem item={this.props.item} />
+        ) : (
+          <EditItem
+            closeEdit={this.handleShowEdit}
+            category={this.props.category}
+            item={this.props.item}
+          />
+        )}
+      </tr>
+    );
+  }
+}
+
+export default Item;

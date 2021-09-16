@@ -16,7 +16,6 @@ class Dashboard extends Component {
     return (
       <div>
         <NavBar />
-        <p>Amount: ${this.props.user.money}</p>
         <Budget />
       </div>
     );

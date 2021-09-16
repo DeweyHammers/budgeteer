@@ -33,6 +33,7 @@ export const loginUser = (user) => {
       if (data.status !== 401) {
         dispatch({ type: "LOGIN_USER", user: data.user });
         dispatch({ type: "ADD_BUDGET", budget: data.budget });
+        dispatch({ type: "LOAD_CATEGORIES" });
       } else {
         dispatch({ type: "USER_ERROR", errors: true });
       }
@@ -43,9 +44,12 @@ export const loginUser = (user) => {
 export const logoutUser = () => {
   return (dispatch) => {
     fetchLogout().then((data) => {
-      data.status === 200
-        ? dispatch({ type: "LOGOUT_USER" })
-        : dispatch({ type: "USER_ERROR", errors: true });
+      if (data.status === 200) {
+        dispatch({ type: "LOGOUT_USER" });
+        dispatch({ type: "CLEAR_BUDGET" });
+      } else {
+        dispatch({ type: "USER_ERROR", errors: true });
+      }
     });
   };
 };
