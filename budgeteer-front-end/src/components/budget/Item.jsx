@@ -1,31 +1,28 @@
 import React, { Component } from "react";
 import ShowItem from "./ShowItem";
 import EditItem from "./EditItem";
+import { TableRow, TableCell, Button } from "@mui/material";
+import { Edit } from "@mui/icons-material";
 
 class Item extends Component {
   state = {
     showEdit: false,
-    checked: false,
   };
 
   handleShowEdit = () => {
     this.setState({
       showEdit: !this.state.showEdit,
-      checked: !this.state.checked,
     });
   };
 
   render() {
     return (
-      <tr>
-        <td>
-          <input
-            type="checkbox"
-            value=""
-            checked={this.state.checked}
-            onChange={this.handleShowEdit}
-          />
-        </td>
+      <TableRow>
+        <TableCell>
+          <Button size="small" onClick={this.handleShowEdit}>
+            <Edit />
+          </Button>
+        </TableCell>
         {!this.state.showEdit ? (
           <ShowItem item={this.props.item} />
         ) : (
@@ -35,7 +32,7 @@ class Item extends Component {
             item={this.props.item}
           />
         )}
-      </tr>
+      </TableRow>
     );
   }
 }

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import AddItem from "./AddItem";
 import Item from "./Item";
 import EditCategory from "./EditCategory";
@@ -8,6 +8,19 @@ import {
   editCategory,
   removeCategory,
 } from "../../redux/budget/budgetActions";
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+  Button,
+  Box,
+  Typography,
+} from "@mui/material";
+import { Edit, Add } from "@mui/icons-material";
 
 class Category extends Component {
   state = {
@@ -40,15 +53,6 @@ class Category extends Component {
     this.setState({ editCategory: !this.state.editCategory });
   };
 
-  renderCategoryName = () => {
-    return (
-      <h1>
-        {this.props.category}{" "}
-        <button onClick={this.handleShowEditCategory}>X</button>
-      </h1>
-    );
-  };
-
   handleEditCategory = (name) => {
     this.props.editCategory(this.props.category, name, this.props.items);
   };
@@ -57,42 +61,96 @@ class Category extends Component {
     this.props.removeCategory(this.props.category, this.props.items);
   };
 
+  renderCategoryAmount = () => {
+    const amount = this.props.items.map((item) => item.amount);
+    return amount.length !== 0 ? amount.reduce((acc, cur) => acc + cur) : 0;
+  };
+
   render() {
     return (
-      <div>
-        {!this.state.editCategory ? (
-          this.renderCategoryName()
-        ) : (
-          <EditCategory
-            closeEdit={this.handleShowEditCategory}
-            category={this.props.category}
-            editCategory={this.handleEditCategory}
-            removeCategory={this.handleRemoveCategory}
-          />
-        )}
-        <button onClick={this.handleShowAddItem}>Add Item</button>
-        {this.state.showAddItem && (
-          <AddItem
-            closeAdd={this.handleShowAddItem}
-            category={this.props.category}
-            addItem={this.handleAddItem}
-          />
-        )}
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Amount</th>
-              <th>Cost Per Month</th>
-              <th>Assign Money</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>{this.renderItems()}</tbody>
-        </table>
-      </div>
+      <Paper>
+        <Box
+          sx={{
+            padding: 1,
+            marginTop: 3,
+            flexGrow: 1,
+            bgcolor: "#CCF2F4",
+            "& .MuiTextField-root": {
+              marginTop: 1.5,
+              marginBottom: 1,
+              marginRight: 2,
+              marginLeft: 2,
+            },
+            "& .MuiButton-root": {
+              marginRight: 1,
+            },
+          }}
+        >
+          <Typography variant="h3">
+            <Button size="large" onClick={this.handleShowEditCategory}>
+              <Edit />
+            </Button>
+            {!this.state.editCategory ? (
+              this.props.category
+            ) : (
+              <EditCategory
+                closeEdit={this.handleShowEditCategory}
+                category={this.props.category}
+                editCategory={this.handleEditCategory}
+                removeCategory={this.handleRemoveCategory}
+              />
+            )}
+          </Typography>
+        </Box>
+        <Box sx={{ bgcolor: "#85bb65" }}>
+          <Typography variant="h4">${this.renderCategoryAmount()}</Typography>
+        </Box>
+        <Box
+          sx={{
+            bgcolor: "#DFF6F0",
+          }}
+        >
+          <Button
+            size="small"
+            variant="contained"
+            onClick={this.handleShowAddItem}
+            style={{ marginTop: 5, marginBottom: 5 }}
+          >
+            <Add />
+          </Button>
+          {this.state.showAddItem && (
+            <AddItem
+              closeAdd={this.handleShowAddItem}
+              category={this.props.category}
+              addItem={this.handleAddItem}
+            />
+          )}
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell>
+                    <Typography>Name</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography align="right">Amount</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography align="right">Cost Per Month</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography align="right">Assign Money</Typography>
+                  </TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{this.renderItems()}</TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      </Paper>
     );
   }
 }

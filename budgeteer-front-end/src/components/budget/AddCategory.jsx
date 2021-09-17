@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { TextField, Box, Button } from "@mui/material";
 
 export default class AddCategory extends Component {
   state = { name: "" };
@@ -16,16 +17,28 @@ export default class AddCategory extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
+      <Box
+        component="form"
+        onSubmit={this.handleSubmit}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          "& .MuiTextField-root": { marginTop: 3, marginBottom: 1 },
+        }}
+      >
+        <TextField
+          fullWidth
           type="text"
           name="name"
-          placeholder="Category Name"
+          label="Category Name"
+          variant="outlined"
           value={this.state.name}
           onChange={this.handleChange}
         />
-        <input type="submit" value="Create" />
-      </form>
+        <Button fullWidth variant="contained" type="submit">
+          Create
+        </Button>
+      </Box>
     );
   }
 }

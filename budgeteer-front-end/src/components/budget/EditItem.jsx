@@ -1,6 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { removeItem, editItem } from "../../redux/budget/budgetActions";
+import { TableCell, TextField, Button, Box } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 
 class EditItem extends Component {
   state = {
@@ -24,54 +26,60 @@ class EditItem extends Component {
 
   render() {
     return (
-      <>
-        <td>
-          <input
+      <Fragment>
+        <TableCell>
+          <TextField
             type="text"
             name="name"
+            size="small"
             value={this.state.name}
             onChange={this.handleChange}
           />
-        </td>
-        <td>
-          <input
+        </TableCell>
+        <TableCell>
+          <TextField
             type="number"
             name="amount"
+            size="small"
             value={this.state.amount}
             onChange={this.handleChange}
           />
-        </td>
-        <td>
-          <input
+        </TableCell>
+        <TableCell>
+          <TextField
             type="number"
             name="cost_per_month"
+            size="small"
             value={this.state.cost_per_month}
             onChange={this.handleChange}
           />
-        </td>
-        <td>
-          <input
+        </TableCell>
+        <TableCell>
+          <TextField
             type="number"
             name="assign_money"
+            size="small"
             value={this.state.assign_money}
             onChange={this.handleChange}
           />
-        </td>
-        <td>
-          <button type="submit" onClick={this.handleClick}>
+        </TableCell>
+        <TableCell>
+          <Button variant="contained" type="submit" onClick={this.handleClick}>
             Edit
-          </button>
-        </td>
-        <td>
-          <button
+          </Button>
+        </TableCell>
+        <TableCell>
+          <Button
+            color="error"
+            variant="outlined"
             onClick={() =>
               this.props.removeItem(this.props.item, this.props.category)
             }
           >
-            X
-          </button>
-        </td>
-      </>
+            <Delete />
+          </Button>
+        </TableCell>
+      </Fragment>
     );
   }
 }

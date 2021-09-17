@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { TextField, Box, Button } from "@mui/material";
 
 const DEFAULT_STATE = {
   name: "",
@@ -22,30 +23,45 @@ export default class AddItem extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
+      <Box
+        component="form"
+        sx={{
+          "& .MuiTextField-root": {
+            marginBottom: 1,
+            marginRight: 1,
+            marginLeft: 1,
+          },
+        }}
+        onSubmit={this.handleSubmit}
+      >
+        <TextField
           type="text"
           placeholder="Item Name"
           name="name"
+          size="small"
           value={this.state.name}
           onChange={this.handleChange}
         />
-        <input
+        <TextField
           type="number"
           placeholder="Cost Per Month"
           name="cost_per_month"
+          size="small"
           value={this.state.cost_per_month}
           onChange={this.handleChange}
         />
-        <input
+        <TextField
           type="number"
           placeholder="Assign Money"
           name="assign_money"
+          size="small"
           value={this.state.assign_money}
           onChange={this.handleChange}
         />
-        <input type="submit" value="Add" onChange={this.handleChange} />
-      </form>
+        <Button type="submit" variant="contained" onChange={this.handleChange}>
+          Add
+        </Button>
+      </Box>
     );
   }
 }

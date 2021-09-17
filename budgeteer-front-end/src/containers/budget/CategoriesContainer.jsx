@@ -14,12 +14,7 @@ const CategoriesContainer = ({ categories, items }) => {
     });
   };
 
-  return (
-    <div>
-      <h3>Your budget Items</h3>
-      {renderCategories()}
-    </div>
-  );
+  return <div>{renderCategories()}</div>;
 };
 
 export default CategoriesContainer;

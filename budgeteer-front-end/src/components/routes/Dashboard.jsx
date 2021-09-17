@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import NavBar from "../NavBar";
 import Budget from "../budget/Budget";
+import styles from "./styles/Dashboard.module.css";
+import { Grid } from "@mui/material";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -16,7 +18,12 @@ class Dashboard extends Component {
     return (
       <div>
         <NavBar />
-        <Budget />
+        <Grid container className={styles.container}>
+          <Grid item xs={false} sm={4} md={4}></Grid>
+          <Grid item xs={12} sm={8} md={6}>
+            <Budget />
+          </Grid>
+        </Grid>
       </div>
     );
   }

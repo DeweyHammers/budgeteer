@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { addCategory } from "../../redux/budget/budgetActions";
 import AddCategory from "./AddCategory";
 import CategoriesContainer from "../../containers/budget/CategoriesContainer";
+import { Box, Paper, Button } from "@mui/material";
 
 class Budget extends Component {
   state = {
@@ -15,19 +16,36 @@ class Budget extends Component {
 
   render() {
     return (
-      <div>
-        <button onClick={this.handleShowAddCategory}>Add Category</button>
-        {this.state.showAddCategory && (
-          <AddCategory
-            closeAdd={this.handleShowAddCategory}
-            handleAddCategory={this.props.addCategory}
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          "& > :not(style)": {
+            m: 1,
+            width: 2000,
+            height: "auto",
+            bgcolor: "#eeeeee",
+            paddingTop: 2,
+            margin: "atuo",
+          },
+        }}
+      >
+        <Paper elevation={0}>
+          <Button variant="contained" onClick={this.handleShowAddCategory}>
+            Add Category
+          </Button>
+          {this.state.showAddCategory && (
+            <AddCategory
+              closeAdd={this.handleShowAddCategory}
+              handleAddCategory={this.props.addCategory}
+            />
+          )}
+          <CategoriesContainer
+            categories={this.props.categories}
+            items={this.props.budget}
           />
-        )}
-        <CategoriesContainer
-          categories={this.props.categories}
-          items={this.props.budget}
-        />
-      </div>
+        </Paper>
+      </Box>
     );
   }
 }

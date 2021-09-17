@@ -1,4 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+import { TextField, Button } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 
 class EditCategory extends Component {
   state = {
@@ -21,16 +23,22 @@ class EditCategory extends Component {
 
   render() {
     return (
-      <h1>
-        <input
+      <Fragment>
+        <TextField
           type="text"
           name="name"
+          variant="outlined"
+          size="small"
           value={this.state.name}
           onChange={this.handleChange}
         />
-        <input type="submit" value="Edit" onClick={this.handleSubmit} />
-        <button onClick={this.handleRemove}>X</button>
-      </h1>
+        <Button variant="contained" type="submit" onClick={this.handleSubmit}>
+          Edit
+        </Button>
+        <Button color="error" variant="outlined" onClick={this.handleRemove}>
+          <Delete />
+        </Button>
+      </Fragment>
     );
   }
 }
