@@ -9,7 +9,7 @@ export const checkForLogin = (loggedinStatus) => {
       if (data.logged_in && loggedinStatus === false) {
         dispatch({ type: "LOGIN_USER", user: data.user });
         dispatch({ type: "ADD_BUDGET", budget: data.budget });
-        dispatch({ type: "LOAD_CATEGORIES" });
+        dispatch({ type: "LOAD_BUDGET_CATEGORIES" });
       }
     });
   };
@@ -33,7 +33,7 @@ export const loginUser = (user) => {
       if (data.status !== 401) {
         dispatch({ type: "LOGIN_USER", user: data.user });
         dispatch({ type: "ADD_BUDGET", budget: data.budget });
-        dispatch({ type: "LOAD_CATEGORIES" });
+        dispatch({ type: "LOAD_BUDGET_CATEGORIES" });
       } else {
         dispatch({ type: "USER_ERROR", errors: true });
       }

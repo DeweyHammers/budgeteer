@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { removeItem, editItem } from "../../redux/budget/budgetActions";
-import { TableCell, TextField, Button, Box } from "@mui/material";
+import { TableCell, TextField, Button } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 
 class EditItem extends Component {

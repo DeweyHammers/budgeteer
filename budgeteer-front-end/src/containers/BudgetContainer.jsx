@@ -1,7 +1,7 @@
 import React from "react";
-import Category from "../../components/budget/Category";
+import Category from "../components/budget/Category";
 
-const CategoriesContainer = ({ categories, items }) => {
+const BudgetContainer = ({ categories, items }) => {
   const renderCategories = () => {
     return categories.map((category, index) => {
       return (
@@ -17,4 +17,4 @@ const CategoriesContainer = ({ categories, items }) => {
   return <div>{renderCategories()}</div>;
 };
 
-export default CategoriesContainer;
+export default BudgetContainer;

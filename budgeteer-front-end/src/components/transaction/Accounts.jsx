@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { addCategory } from "../../redux/budget/budgetActions";
 import AddCategory from "../AddCategory";
-import BudgetContainer from "../../containers/BudgetContainer";
+import ListAccountNames from "./ListAccountNames";
 import { Box, Paper, Button } from "@mui/material";
+import { addAccount } from "../../redux/transaction/transactionActions";
+import { connect } from "react-redux";
 
-class Budget extends Component {
+class Accounts extends Component {
   state = {
     showAddCategory: false,
   };
@@ -20,9 +20,10 @@ class Budget extends Component {
         sx={{
           display: "flex",
           flexWrap: "wrap",
+          justifyContent: "center",
           "& > :not(style)": {
             m: 1,
-            width: 2000,
+            width: 500,
             height: "auto",
             bgcolor: "#eeeeee",
             paddingTop: 2,
@@ -32,27 +33,19 @@ class Budget extends Component {
       >
         <Paper elevation={0}>
           <Button variant="contained" onClick={this.handleShowAddCategory}>
-            Add Budget
+            Add Account
           </Button>
           {this.state.showAddCategory && (
             <AddCategory
               closeAdd={this.handleShowAddCategory}
-              handleAddCategory={this.props.addCategory}
+              handleAddCategory={this.props.addAccount}
             />
           )}
-          <BudgetContainer
-            categories={this.props.categories}
-            items={this.props.budget}
-          />
+          <ListAccountNames showTransactions={this.props.showTransactions} />
         </Paper>
       </Box>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  const { budget, categories } = state.budgetReducers;
-  return { budget, categories };
-};
-
-export default connect(mapStateToProps, { addCategory })(Budget);
+export default connect(null, { addAccount })(Accounts);
