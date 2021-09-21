@@ -9,7 +9,8 @@ class SessionsController < ApplicationController
         status: :created,
         logged_in: true,
         user: { id: user.id, username: user.username, email: user.email },
-        budget: user.budgets
+        budgets: user.budgets,
+        transactions: user.transactions.map { |transaction| { transaction: transaction, manifests: transaction.manifests} },
       }
     else 
       render json: { 
@@ -23,7 +24,8 @@ class SessionsController < ApplicationController
       render json: { 
         logged_in: true,
         user: { id: @current_user.id, username: @current_user.username, email: @current_user.email },
-        budget: @current_user.budgets
+        budgets: @current_user.budgets,
+        transactions: @current_user.transactions.map { |transaction| { transaction: transaction, manifests: transaction.manifests} },
       }
     else
       render json: {

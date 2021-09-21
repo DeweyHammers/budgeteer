@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_13_222149) do
+ActiveRecord::Schema.define(version: 2021_09_21_005239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,16 +27,23 @@ ActiveRecord::Schema.define(version: 2021_09_13_222149) do
     t.index ["user_id"], name: "index_budgets_on_user_id"
   end
 
-  create_table "transactions", force: :cascade do |t|
-    t.string "name"
-    t.string "category"
-    t.float "outflow"
-    t.float "inflow"
-    t.bigint "user_id", null: false
+  create_table "manifests", force: :cascade do |t|
+    t.bigint "transaction_id", null: false
     t.bigint "budget_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["budget_id"], name: "index_transactions_on_budget_id"
+    t.index ["budget_id"], name: "index_manifests_on_budget_id"
+    t.index ["transaction_id"], name: "index_manifests_on_transaction_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "name"
+    t.string "account"
+    t.float "outflow"
+    t.float "inflow"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
@@ -49,6 +56,7 @@ ActiveRecord::Schema.define(version: 2021_09_13_222149) do
   end
 
   add_foreign_key "budgets", "users"
-  add_foreign_key "transactions", "budgets"
+  add_foreign_key "manifests", "budgets"
+  add_foreign_key "manifests", "transactions"
   add_foreign_key "transactions", "users"
 end

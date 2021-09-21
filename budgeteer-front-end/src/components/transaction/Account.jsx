@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { addTransaction } from "../../redux/transaction/transactionActions";
 import AddTransaction from "./AddTransaction";
+import TransactionContainer from "../../containers/TranscationContainer";
 import {
   TableContainer,
   Table,
@@ -21,6 +24,21 @@ class Account extends Component {
 
   handleShowTransactions = () => {
     this.setState({ showAddTransaction: !this.state.showAddTransaction });
+  };
+
+  handleAddTransaction = (transaction, item) => {
+    this.props.addTransaction(
+      {
+        transaction: {
+          name: transaction.name,
+          account: this.props.account,
+          outflow: transaction.outflow,
+          inflow: transaction.inflow,
+          user_id: this.props.user.id,
+        },
+      },
+      item
+    );
   };
 
   render() {
@@ -81,7 +99,13 @@ class Account extends Component {
               >
                 <Add />
               </Button>
-              {this.state.showAddTransaction && <AddTransaction />}
+              {this.state.showAddTransaction && (
+                <AddTransaction
+                  budget={this.props.budget}
+                  accounts={this.props.accounts}
+                  addTransaction={this.handleAddTransaction}
+                />
+              )}
               <TableContainer>
                 <Table>
                   <TableHead>
@@ -103,7 +127,12 @@ class Account extends Component {
                       <TableCell></TableCell>
                     </TableRow>
                   </TableHead>
-                  <TableBody></TableBody>
+                  <TableBody>
+                    <TransactionContainer
+                      transactions={this.props.transactions}
+                      budget={this.props.budget}
+                    />
+                  </TableBody>
                 </Table>
               </TableContainer>
             </Box>
@@ -114,4 +143,11 @@ class Account extends Component {
   }
 }
 
-export default Account;
+const mapStateToProps = (state) => {
+  const { user } = state.userReducers;
+  const { budget } = state.budgetReducers;
+  const { accounts } = state.transactionReducers;
+  return { user, budget, accounts };
+};
+
+export default connect(mapStateToProps, { addTransaction })(Account);

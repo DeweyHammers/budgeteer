@@ -49,7 +49,6 @@ export const editCategory = (category, name, items) => {
 };
 
 export const removeCategory = (category, items) => {
-  console.log(category);
   let errors = false;
   return async (dispatch) => {
     dispatch({ type: "LOADING_BUDGET" });

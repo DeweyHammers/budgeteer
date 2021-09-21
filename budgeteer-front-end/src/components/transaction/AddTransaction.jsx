@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import {
   TextField,
   FormControl,
@@ -17,7 +16,7 @@ const DEFAULT_STATE = {
   inflow: "",
 };
 
-class AddTransaction extends Component {
+export default class AddTransaction extends Component {
   state = DEFAULT_STATE;
 
   handleChange = (event) => {
@@ -26,12 +25,48 @@ class AddTransaction extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const item = this.props.budget.filter(
+      (item) => item.id === this.state.payee
+    );
+    this.handlePayee(item);
+    this.props.addTransaction(
+      {
+        name: this.state.name,
+        payee: item[0].name,
+        outflow:
+          this.state.outflow !== "" ? parseInt(this.state.outflow, 10) : 0,
+        inflow: this.state.inflow !== "" ? parseInt(this.state.inflow, 10) : 0,
+      },
+      item[0]
+    );
     this.setState(DEFAULT_STATE);
+  };
+
+  handlePayee = (item) => {
+    if (item.length !== 0) {
+      if (this.state.outflow.length === 0) {
+        item[0].amount += parseInt(this.state.inflow, 10);
+      } else {
+        item[0].amount -= parseInt(this.state.outflow, 10);
+      }
+    } else {
+      item[0] = this.state.payee;
+    }
+  };
+
+  renderAccounts = () => {
+    return this.props.accounts.map((account, index) => (
+      <MenuItem key={index} value={account}>
+        {account}
+      </MenuItem>
+    ));
   };
 
   renderItems = () => {
     return this.props.budget.map((item) => (
-      <MenuItem value={item.name}>{item.name}</MenuItem>
+      <MenuItem key={item.id} value={item.id}>
+        {item.name}
+      </MenuItem>
     ));
   };
 
@@ -66,6 +101,7 @@ class AddTransaction extends Component {
             name="payee"
             onChange={this.handleChange}
           >
+            {this.renderAccounts()}
             {this.renderItems()}
           </Select>
         </FormControl>
@@ -92,9 +128,3 @@ class AddTransaction extends Component {
     );
   }
 }
-
-const mapStateToProps = (state) => {
-  return { budget: state.budgetReducers.budget };
-};
-
-export default connect(mapStateToProps)(AddTransaction);

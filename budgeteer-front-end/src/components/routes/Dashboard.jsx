@@ -42,6 +42,9 @@ class Dashboard extends Component {
             ) : (
               <Account
                 account={this.state.account}
+                transactions={this.props.transactions.filter(
+                  (transaction) => transaction.account === this.state.account
+                )}
                 showBudget={this.handleShowTransactions}
               />
             )}
@@ -54,7 +57,8 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
   const { user, loggedIn } = state.userReducers;
-  return { user, loggedIn };
+  const { transactions } = state.transactionReducers;
+  return { user, loggedIn, transactions };
 };
 
 export default connect(mapStateToProps)(Dashboard);

@@ -12,7 +12,7 @@ const budgetReducers = (state = budget, action) => {
         ...state,
         loading_budget: true,
       };
-    case "ADD_BUDGET":
+    case "GET_BUDGET":
       return {
         ...state,
         budget: action.budget,

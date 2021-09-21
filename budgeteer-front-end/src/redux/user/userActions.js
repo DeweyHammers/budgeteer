@@ -8,8 +8,17 @@ export const checkForLogin = (loggedinStatus) => {
     fetchLoggedin().then((data) => {
       if (data.logged_in && loggedinStatus === false) {
         dispatch({ type: "LOGIN_USER", user: data.user });
-        dispatch({ type: "ADD_BUDGET", budget: data.budget });
+        dispatch({ type: "GET_BUDGET", budget: data.budgets });
         dispatch({ type: "LOAD_BUDGET_CATEGORIES" });
+        dispatch({
+          type: "GET_TRANSACTION",
+          transactions: data.transactions.map((data) => {
+            const transaction = data.transaction;
+            transaction.manifests = data.manifests;
+            return transaction;
+          }),
+        });
+        dispatch({ type: "LOAD_TRANSACTION_ACCOUNTS" });
       }
     });
   };
@@ -32,8 +41,17 @@ export const loginUser = (user) => {
     fetchLogin(user).then((data) => {
       if (data.status !== 401) {
         dispatch({ type: "LOGIN_USER", user: data.user });
-        dispatch({ type: "ADD_BUDGET", budget: data.budget });
+        dispatch({ type: "GET_BUDGET", budget: data.budget });
         dispatch({ type: "LOAD_BUDGET_CATEGORIES" });
+        dispatch({
+          type: "GET_TRANSACTION",
+          transactions: data.transactions.map((data) => {
+            const transaction = data.transaction;
+            transaction.manifests = data.manifests;
+            return transaction;
+          }),
+        });
+        dispatch({ type: "LOAD_TRANSACTION_ACCOUNTS" });
       } else {
         dispatch({ type: "USER_ERROR", errors: true });
       }

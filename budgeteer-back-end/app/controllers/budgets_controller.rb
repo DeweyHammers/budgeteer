@@ -4,7 +4,7 @@ class BudgetsController < ApplicationController
     if budget.save
       render json: {
         status: :created,
-        budget: budget
+        budget: budget 
       }
     else 
       render json: { status: 500 }

@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import userReducers from "./user/userReducers";
 import budgetReducers from "./budget/budgetReducers";
-import transactionsReducer from "./transaction/transcationReducer";
+import transactionReducers from "./transaction/transactionReducers";
 
 export default combineReducers({
   userReducers,
   budgetReducers,
-  transactionsReducer,
+  transactionReducers,
 });

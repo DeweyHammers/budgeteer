@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 
 const ListAccountNames = ({ accounts, showTransactions }) => {
   const renderAccountsNames = () => {
-    return accounts.map((account) => (
-      <Typography variant="h2" component="div">
+    return accounts.map((account, index) => (
+      <Typography key={index} variant="h2" component="div">
         <Button
           onClick={() => showTransactions(account)}
           variant="contained"
@@ -39,7 +39,7 @@ const ListAccountNames = ({ accounts, showTransactions }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { accounts: state.transactionsReducer.accounts };
+  return { accounts: state.transactionReducers.accounts };
 };
 
 export default connect(mapStateToProps)(ListAccountNames);
