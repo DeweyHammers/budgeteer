@@ -9,8 +9,7 @@ import { Grid } from "@mui/material";
 
 class Dashboard extends Component {
   state = {
-    showTransactions: false,
-    account: null,
+    account: false,
   };
 
   componentDidMount() {
@@ -22,8 +21,10 @@ class Dashboard extends Component {
   }
 
   handleShowTransactions = (account) => {
+    if (account === this.state.account) {
+      account = false;
+    }
     this.setState({
-      showTransactions: !this.state.showTransactions,
       account,
     });
   };
@@ -37,7 +38,7 @@ class Dashboard extends Component {
             <Accounts showTransactions={this.handleShowTransactions} />
           </Grid>
           <Grid item xs={12} sm={8} md={6}>
-            {!this.state.showTransactions ? (
+            {!this.state.account ? (
               <Budget />
             ) : (
               <Account

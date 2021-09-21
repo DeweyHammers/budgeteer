@@ -41,6 +41,19 @@ class Account extends Component {
     );
   };
 
+  renderTransactionAmount = () => {
+    const findTransaction = this.props.transactions.filter(
+      (transaction) => transaction.account === this.props.account
+    );
+    const inflow = findTransaction.map((transaction) => transaction.inflow);
+    const outflow = findTransaction.map((transaction) => transaction.outflow);
+    const amount =
+      inflow.length !== 0 ? inflow.reduce((acc, cur) => acc + cur) : 0;
+    const spent =
+      outflow.length !== 0 ? outflow.reduce((acc, cur) => acc + cur) : 0;
+    return amount - spent;
+  };
+
   render() {
     return (
       <Box
@@ -84,7 +97,9 @@ class Account extends Component {
               </Typography>
             </Box>
             <Box sx={{ bgcolor: "#85bb65" }}>
-              <Typography variant="h4">$0</Typography>
+              <Typography variant="h4">
+                ${this.renderTransactionAmount()}
+              </Typography>
             </Box>
             <Box
               sx={{

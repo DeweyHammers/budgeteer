@@ -41,7 +41,7 @@ export const loginUser = (user) => {
     fetchLogin(user).then((data) => {
       if (data.status !== 401) {
         dispatch({ type: "LOGIN_USER", user: data.user });
-        dispatch({ type: "GET_BUDGET", budget: data.budget });
+        dispatch({ type: "GET_BUDGET", budget: data.budgets });
         dispatch({ type: "LOAD_BUDGET_CATEGORIES" });
         dispatch({
           type: "GET_TRANSACTION",
