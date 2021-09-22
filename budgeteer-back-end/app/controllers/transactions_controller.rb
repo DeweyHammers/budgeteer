@@ -15,6 +15,27 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def update
+    transaction = Transaction.find(params[:transaction][:id])
+    if transaction.update(transaction_params)
+      render json: { 
+        status: :updated,
+        transaction: transaction
+      }
+    else
+      render json: { status: 500 }
+    end
+  end
+
+  def destroy
+    transaction = Transaction.find(params[:id])
+    if transaction.destroy
+      render json: { status: 200 }
+    else
+      render json: { status: 500 }
+    end
+  end
+
   def transaction_params
     params.require(:transaction).permit(:name, :account, :outflow, :inflow, :user_id)
   end

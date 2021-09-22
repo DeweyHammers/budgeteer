@@ -41,7 +41,7 @@ class Accounts extends Component {
               handleAddCategory={this.props.addAccount}
             />
           )}
-          <ListAccountNames showTransactions={this.props.showTransactions} />
+          <ListAccountNames />
         </Paper>
       </Box>
     );

@@ -9,6 +9,9 @@ const TransactionContainer = ({ transactions, budget }) => {
         item = budget.filter(
           (i) => transaction.manifests[0].budget_id === i.id
         )[0];
+        if (item === undefined) {
+          item = { name: "Deleted" };
+        }
       } else {
         item = { name: transaction.account };
       }

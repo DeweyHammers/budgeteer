@@ -3,28 +3,41 @@ import { connect } from "react-redux";
 import { addCategory } from "../../redux/budget/budgetActions";
 import AddCategory from "../AddCategory";
 import BudgetContainer from "../../containers/BudgetContainer";
+import AssignMoney from "./AssignMoney";
 import { Box, Paper, Button, Typography } from "@mui/material";
 
 class Budget extends Component {
   state = {
     showAddCategory: false,
+    showAssignMoney: false,
   };
 
   renderAssignMoney = () => {
-    const findTransaction = this.props.transactions.filter(
-      (transaction) => transaction.manifests.length === 0
-    );
-    const inflow = findTransaction.map((transaction) => transaction.inflow);
-    const outflow = findTransaction.map((transaction) => transaction.outflow);
-    const amount =
-      inflow.length !== 0 ? inflow.reduce((acc, cur) => acc + cur) : 0;
-    const spent =
-      outflow.length !== 0 ? outflow.reduce((acc, cur) => acc + cur) : 0;
-    return amount - spent;
+    if (this.props.user.assign_money > 0) {
+      return (
+        <Button
+          style={{ marginBottom: 10 }}
+          variant="contained"
+          onClick={this.handleShowAssignMoney}
+        >
+          ${this.props.user.assign_money} Assign Money
+        </Button>
+      );
+    } else {
+      return (
+        <Button variant="contained" disabled>
+          All money Assigned
+        </Button>
+      );
+    }
   };
 
   handleShowAddCategory = () => {
     this.setState({ showAddCategory: !this.state.showAddCategory });
+  };
+
+  handleShowAssignMoney = () => {
+    this.setState({ showAssignMoney: !this.state.showAssignMoney });
   };
 
   render() {
@@ -44,11 +57,17 @@ class Budget extends Component {
         }}
       >
         <Paper elevation={0}>
-          <div>
-            <Button variant="contained">
-              ${this.renderAssignMoney()} Assign Money
-            </Button>
-          </div>
+          <Typography variant="h2" gutterBottom component="div">
+            Your Budget
+          </Typography>
+          <div>{this.renderAssignMoney()}</div>
+          {this.state.showAssignMoney && (
+            <AssignMoney
+              user={this.props.user}
+              budget={this.props.budget}
+              handleShowAssignMoney={this.handleShowAssignMoney}
+            />
+          )}
           <div>
             <Button
               style={{ marginTop: 10 }}
@@ -75,9 +94,10 @@ class Budget extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const { user } = state.userReducers;
   const { budget, categories } = state.budgetReducers;
   const { transactions } = state.transactionReducers;
-  return { budget, categories, transactions };
+  return { user, budget, categories, transactions };
 };
 
 export default connect(mapStateToProps, { addCategory })(Budget);

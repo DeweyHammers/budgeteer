@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2021_09_21_005239) do
     t.string "username"
     t.string "email"
     t.string "password_digest"
+    t.float "assign_money"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

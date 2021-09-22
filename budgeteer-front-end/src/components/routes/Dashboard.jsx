@@ -5,13 +5,9 @@ import Accounts from "../transaction/Accounts";
 import Budget from "../budget/Budget";
 import Account from "../transaction/Account";
 import styles from "./styles/Dashboard.module.css";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 class Dashboard extends Component {
-  state = {
-    account: false,
-  };
-
   componentDidMount() {
     !this.props.loggedIn && this.props.history.push("/");
   }
@@ -20,37 +16,46 @@ class Dashboard extends Component {
     !this.props.loggedIn && this.props.history.push("/");
   }
 
-  handleShowTransactions = (account) => {
-    if (account === this.state.account) {
-      account = false;
-    }
-    this.setState({
-      account,
-    });
+  handleClickToProfile = () => {
+    this.props.history.push("/profile");
   };
 
   render() {
     return (
       <div>
-        <NavBar />
-        <Grid container className={styles.container}>
-          <Grid item xs={false} sm={4} md={4}>
-            <Accounts showTransactions={this.handleShowTransactions} />
+        <div style={{ marginBottom: 100 }}>
+          <NavBar
+            loadingBudget={this.props.loading_budget}
+            loadingTransaction={this.props.loading_transactions}
+            showProfile={this.handleClickToProfile}
+          />
+          <Grid container className={styles.container}>
+            <Grid item xs={false} sm={4} md={4}>
+              <Accounts />
+            </Grid>
+            <Grid item xs={12} sm={8} md={6}>
+              {!this.props.showAccount ? (
+                <Budget />
+              ) : (
+                <Account
+                  account={this.props.showAccount}
+                  transactions={this.props.transactions.filter(
+                    (transaction) =>
+                      transaction.account === this.props.showAccount
+                  )}
+                  showBudget={this.handleShowTransactions}
+                />
+              )}
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={8} md={6}>
-            {!this.state.account ? (
-              <Budget />
-            ) : (
-              <Account
-                account={this.state.account}
-                transactions={this.props.transactions.filter(
-                  (transaction) => transaction.account === this.state.account
-                )}
-                showBudget={this.handleShowTransactions}
-              />
-            )}
-          </Grid>
-        </Grid>
+        </div>
+        <Typography
+          style={{ textAlign: "center" }}
+          variant="overline"
+          display="block"
+        >
+          Copyright © Budgeteer 2021
+        </Typography>
       </div>
     );
   }
@@ -58,8 +63,17 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
   const { user, loggedIn } = state.userReducers;
-  const { transactions } = state.transactionReducers;
-  return { user, loggedIn, transactions };
+  const { transactions, showAccount, loading_transactions } =
+    state.transactionReducers;
+  const { loading_budget } = state.budgetReducers;
+  return {
+    user,
+    loggedIn,
+    transactions,
+    showAccount,
+    loading_budget,
+    loading_transactions,
+  };
 };
 
 export default connect(mapStateToProps)(Dashboard);

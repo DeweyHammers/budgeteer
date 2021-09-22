@@ -86,6 +86,8 @@ const budgetReducers = (state = budget, action) => {
             (category) => category !== action.category
           ),
         ],
+        loading_budget: false,
+        errors_budget: false,
       };
     case "CLEAR_BUDGET":
       return {

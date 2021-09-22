@@ -54,18 +54,10 @@ export default class AddTransaction extends Component {
     }
   };
 
-  renderAccounts = () => {
-    return this.props.accounts.map((account, index) => (
-      <MenuItem key={index} value={account}>
-        {account}
-      </MenuItem>
-    ));
-  };
-
   renderItems = () => {
     return this.props.budget.map((item) => (
       <MenuItem key={item.id} value={item.id}>
-        {item.name}
+        {item.name} | ${item.amount}
       </MenuItem>
     ));
   };
@@ -101,7 +93,7 @@ export default class AddTransaction extends Component {
             name="payee"
             onChange={this.handleChange}
           >
-            {this.renderAccounts()}
+            <MenuItem value={this.props.account}>{this.props.account}</MenuItem>
             {this.renderItems()}
           </Select>
         </FormControl>

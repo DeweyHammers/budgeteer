@@ -1,8 +1,18 @@
 import React from "react";
 import { Box, Paper, Button, Typography } from "@mui/material";
 import { connect } from "react-redux";
+import {
+  addShowAccount,
+  removeShowAccount,
+} from "../../redux/transaction/transactionActions";
 
-const ListAccountNames = ({ accounts, showTransactions, transactions }) => {
+const ListAccountNames = ({
+  accounts,
+  transactions,
+  addShowAccount,
+  removeShowAccount,
+  showAccount,
+}) => {
   const renderAccountsNames = () => {
     return accounts.map((account, index) => {
       const renderTransactionAmount = () => {
@@ -19,11 +29,10 @@ const ListAccountNames = ({ accounts, showTransactions, transactions }) => {
           outflow.length !== 0 ? outflow.reduce((acc, cur) => acc + cur) : 0;
         return amount - spent;
       };
-
       return (
         <Typography key={index} variant="h2" component="div">
           <Button
-            onClick={() => showTransactions(account)}
+            onClick={() => handleShowAccount(account)}
             variant="contained"
             size="large"
             fullWidth
@@ -33,6 +42,10 @@ const ListAccountNames = ({ accounts, showTransactions, transactions }) => {
         </Typography>
       );
     });
+  };
+
+  const handleShowAccount = (account) => {
+    showAccount !== account ? addShowAccount(account) : removeShowAccount();
   };
 
   return (
@@ -56,8 +69,10 @@ const ListAccountNames = ({ accounts, showTransactions, transactions }) => {
 };
 
 const mapStateToProps = (state) => {
-  const { accounts, transactions } = state.transactionReducers;
-  return { accounts, transactions };
+  const { accounts, transactions, showAccount } = state.transactionReducers;
+  return { accounts, transactions, showAccount };
 };
 
-export default connect(mapStateToProps)(ListAccountNames);
+export default connect(mapStateToProps, { addShowAccount, removeShowAccount })(
+  ListAccountNames
+);

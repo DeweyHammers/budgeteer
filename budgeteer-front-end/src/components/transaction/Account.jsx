@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addTransaction } from "../../redux/transaction/transactionActions";
+import {
+  addTransaction,
+  editTransaction,
+  editAccount,
+  removeAccount,
+} from "../../redux/transaction/transactionActions";
 import AddTransaction from "./AddTransaction";
 import TransactionContainer from "../../containers/TranscationContainer";
+import EditAccount from "./EditAccount";
 import {
   TableContainer,
   Table,
@@ -20,10 +26,15 @@ import { Edit, Add } from "@mui/icons-material";
 class Account extends Component {
   state = {
     showAddTransaction: false,
+    showEditAccount: false,
   };
 
   handleShowTransactions = () => {
     this.setState({ showAddTransaction: !this.state.showAddTransaction });
+  };
+
+  handleShowEditAccount = () => {
+    this.setState({ showEditAccount: !this.state.showEditAccount });
   };
 
   handleAddTransaction = (transaction, item) => {
@@ -37,16 +48,30 @@ class Account extends Component {
           user_id: this.props.user.id,
         },
       },
-      item
+      item,
+      this.props.user
     );
   };
 
+  handleEditAccount = (name) => {
+    this.props.editAccount(name, this.props.account);
+    this.props.transactions.map((transaction) => {
+      transaction.account = name;
+      return this.props.editTransaction(transaction);
+    });
+  };
+
+  handleRemoveAccount = () => {
+    this.props.removeAccount(this.props.account, this.props.transactions);
+  };
+
   renderTransactionAmount = () => {
-    const findTransaction = this.props.transactions.filter(
-      (transaction) => transaction.account === this.props.account
+    const inflow = this.props.transactions.map(
+      (transaction) => transaction.inflow
     );
-    const inflow = findTransaction.map((transaction) => transaction.inflow);
-    const outflow = findTransaction.map((transaction) => transaction.outflow);
+    const outflow = this.props.transactions.map(
+      (transaction) => transaction.outflow
+    );
     const amount =
       inflow.length !== 0 ? inflow.reduce((acc, cur) => acc + cur) : 0;
     const spent =
@@ -70,6 +95,9 @@ class Account extends Component {
           },
         }}
       >
+        <Typography variant="h2" gutterBottom component="div">
+          Your Transactions
+        </Typography>
         <Paper elevation={0}>
           <Paper>
             <Box
@@ -90,10 +118,19 @@ class Account extends Component {
               }}
             >
               <Typography variant="h3">
-                <Button size="large">
+                <Button size="large" onClick={this.handleShowEditAccount}>
                   <Edit />
                 </Button>
-                {this.props.account}
+                {!this.state.showEditAccount ? (
+                  this.props.account
+                ) : (
+                  <EditAccount
+                    closeEdit={this.handleShowEditAccount}
+                    editAccount={this.handleEditAccount}
+                    removeAccount={this.handleRemoveAccount}
+                    account={this.props.account}
+                  />
+                )}
               </Typography>
             </Box>
             <Box sx={{ bgcolor: "#85bb65" }}>
@@ -117,7 +154,7 @@ class Account extends Component {
               {this.state.showAddTransaction && (
                 <AddTransaction
                   budget={this.props.budget}
-                  accounts={this.props.accounts}
+                  account={this.props.account}
                   addTransaction={this.handleAddTransaction}
                 />
               )}
@@ -126,6 +163,7 @@ class Account extends Component {
                   <TableHead>
                     <TableRow>
                       <TableCell></TableCell>
+                      <TableCell>Created On</TableCell>
                       <TableCell>
                         <Typography>Name</Typography>
                       </TableCell>
@@ -161,8 +199,12 @@ class Account extends Component {
 const mapStateToProps = (state) => {
   const { user } = state.userReducers;
   const { budget } = state.budgetReducers;
-  const { accounts } = state.transactionReducers;
-  return { user, budget, accounts };
+  return { user, budget };
 };
 
-export default connect(mapStateToProps, { addTransaction })(Account);
+export default connect(mapStateToProps, {
+  addTransaction,
+  editTransaction,
+  editAccount,
+  removeAccount,
+})(Account);

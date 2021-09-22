@@ -2,6 +2,7 @@ import fetchRegistration from "../../providers/user/fetchRegistration";
 import fetchLogin from "../../providers/user/fetchLogin";
 import fetchLogout from "../../providers/user/fetchLogout";
 import fetchLoggedin from "../../providers/user/fetchLoggedIn";
+import fetchUpdateUser from "../../providers/user/fetchUpdateUser";
 
 export const checkForLogin = (loggedinStatus) => {
   return (dispatch) => {
@@ -59,12 +60,23 @@ export const loginUser = (user) => {
   };
 };
 
+export const editUser = (user) => {
+  return (dispatch) => {
+    fetchUpdateUser(user).then((data) => {
+      data.status !== 500
+        ? dispatch({ type: "UPDATE_USER", user: data.user })
+        : dispatch({ type: "USER_ERROR", errors: true });
+    });
+  };
+};
+
 export const logoutUser = () => {
   return (dispatch) => {
     fetchLogout().then((data) => {
       if (data.status === 200) {
         dispatch({ type: "LOGOUT_USER" });
         dispatch({ type: "CLEAR_BUDGET" });
+        dispatch({ type: "CLEAR_TRANSACTION" });
       } else {
         dispatch({ type: "USER_ERROR", errors: true });
       }

@@ -15,6 +15,13 @@ const userReducers = (state = user, action) => {
         loading: false,
         errors: false,
       };
+    case "UPDATE_USER":
+      return {
+        ...state,
+        user: action.user,
+        loading: false,
+        errors: false,
+      };
     case "LOGOUT_USER":
       return {
         ...state,
