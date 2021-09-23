@@ -27,7 +27,7 @@ class TransactionsController < ApplicationController
       }
     else
       render json: { 
-        sstatus: 500,
+        status: 500,
         errors: transaction.errors.full_messages 
        }
     end

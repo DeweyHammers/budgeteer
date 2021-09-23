@@ -20,7 +20,7 @@ const userReducers = (state = user, action) => {
         user_loading: false,
         user_errors: false,
       };
-    case "UPDATE_USER":
+    case "EDIT_USER":
       return {
         ...state,
         user: action.user,

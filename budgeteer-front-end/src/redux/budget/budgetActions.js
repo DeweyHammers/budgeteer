@@ -40,6 +40,7 @@ export const editCategory = (category, name, items) => {
       return fetchEditItem(editItem).then((data) => {
         if (data.status !== 500) {
           dispatch({ type: "EDIT_CATEGORY", name, category });
+          dispatch({ type: "EDIT_ITEM", item: data.budget });
         } else {
           dispatch({ type: "BUDGET_ERROR", errors: data.errors });
         }

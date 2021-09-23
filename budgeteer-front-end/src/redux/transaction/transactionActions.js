@@ -45,7 +45,7 @@ export const addTransaction = (transaction, item, user) => {
           editUser.assign_money += transaction.inflow;
           fetchUpdateUser(editUser).then((data) => {
             data.status !== 500
-              ? dispatch({ type: "UPDATE_USER", user: data.user })
+              ? dispatch({ type: "EDIT_USER", user: data.user })
               : dispatch({ type: "USER_ERROR", errors: true });
           });
         } else {
@@ -61,7 +61,7 @@ export const editTransaction = (transaction) => {
     dispatch({ type: "TRANSACTION_LOADING" });
     fetchEditTranscation(transaction).then((data) => {
       data.status !== 500
-        ? dispatch({ type: "UPDATE_TRANSACTION", transaction })
+        ? dispatch({ type: "EDIT_TRANSACTION", transaction: data.transaction })
         : dispatch({ type: "TRANSACTION_ERROR", errors: data.errors });
     });
   };
@@ -73,9 +73,13 @@ export const editAccount = (name, account, transactions) => {
     transactions.map((transaction) => {
       const editTransaction = JSON.parse(JSON.stringify(transaction));
       editTransaction.account = name;
-      fetchEditTranscation(editTransaction).then((data) => {
+      return fetchEditTranscation(editTransaction).then((data) => {
         if (data.status !== 500) {
           dispatch({ type: "EDIT_ACCOUNT", name, account });
+          dispatch({
+            type: "EDIT_TRANSACTION",
+            transaction: data.transaction,
+          });
           dispatch({ type: "ADD_SHOW_ACCOUNT", name });
         } else {
           dispatch({ type: "TRANSACTION_ERROR", errors: data.errors });

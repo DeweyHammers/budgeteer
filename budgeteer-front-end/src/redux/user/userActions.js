@@ -66,7 +66,7 @@ export const editUser = (user) => {
     dispatch({ type: "LOADING_USER" });
     fetchUpdateUser(user).then((data) => {
       data.status !== 500
-        ? dispatch({ type: "UPDATE_USER", user: data.user })
+        ? dispatch({ type: "EDIT_USER", user: data.user })
         : dispatch({ type: "USER_ERROR", errors: data.errors });
     });
   };

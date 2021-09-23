@@ -58,7 +58,7 @@ const transactionReducers = (state = transactions, action) => {
         transactions_loading: false,
         transactions_errors: false,
       };
-    case "UPDATE_TRANSACTION":
+    case "EDIT_TRANSACTION":
       return {
         ...state,
         transactions: [

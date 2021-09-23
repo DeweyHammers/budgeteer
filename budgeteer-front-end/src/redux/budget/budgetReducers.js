@@ -49,6 +49,7 @@ const budgetReducers = (state = budget, action) => {
               return {
                 ...item,
                 name: action.item.name,
+                category: action.item.category,
                 amount: action.item.amount,
                 cost_per_month: action.item.cost_per_month,
                 assign_money: action.item.assign_money,
