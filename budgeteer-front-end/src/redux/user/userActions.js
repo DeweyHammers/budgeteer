@@ -3,6 +3,7 @@ import fetchLogin from "../../providers/user/fetchLogin";
 import fetchLogout from "../../providers/user/fetchLogout";
 import fetchLoggedin from "../../providers/user/fetchLoggedIn";
 import fetchUpdateUser from "../../providers/user/fetchUpdateUser";
+import fetchRemoveUser from "../../providers/user/fetchRemoveUser";
 
 export const checkForLogin = (loggedinStatus) => {
   return (dispatch) => {
@@ -31,7 +32,7 @@ export const registerUser = (user) => {
     fetchRegistration(user).then((data) => {
       data.status !== 500
         ? dispatch({ type: "LOGIN_USER", user: data.user })
-        : dispatch({ type: "USER_ERROR", errors: true });
+        : dispatch({ type: "USER_ERROR", errors: data.errors });
     });
   };
 };
@@ -54,7 +55,7 @@ export const loginUser = (user) => {
         });
         dispatch({ type: "LOAD_TRANSACTION_ACCOUNTS" });
       } else {
-        dispatch({ type: "USER_ERROR", errors: true });
+        dispatch({ type: "USER_ERROR", errors: data.errors });
       }
     });
   };
@@ -62,10 +63,11 @@ export const loginUser = (user) => {
 
 export const editUser = (user) => {
   return (dispatch) => {
+    dispatch({ type: "LOADING_USER" });
     fetchUpdateUser(user).then((data) => {
       data.status !== 500
         ? dispatch({ type: "UPDATE_USER", user: data.user })
-        : dispatch({ type: "USER_ERROR", errors: true });
+        : dispatch({ type: "USER_ERROR", errors: data.errors });
     });
   };
 };
@@ -78,14 +80,29 @@ export const logoutUser = () => {
         dispatch({ type: "CLEAR_BUDGET" });
         dispatch({ type: "CLEAR_TRANSACTION" });
       } else {
-        dispatch({ type: "USER_ERROR", errors: true });
+        dispatch({ type: "USER_ERROR", errors: data.errors });
       }
     });
   };
 };
 
-export const closeError = () => {
+export const removeUser = (user) => {
+  return (dispatch) => {
+    dispatch({ type: "LOADING_USER" });
+    fetchRemoveUser(user).then((data) => {
+      if (data.status !== 500) {
+        dispatch({ type: "LOGOUT_USER" });
+        dispatch({ type: "CLEAR_BUDGET" });
+        dispatch({ type: "CLEAR_TRANSACTION" });
+      } else {
+        dispatch({ type: "USER_ERROR", errors: data.errors });
+      }
+    });
+  };
+};
+
+export const closeUserError = () => {
   return {
-    type: "CLOSE_ERROR",
+    type: "CLOSE_USER_ERROR",
   };
 };

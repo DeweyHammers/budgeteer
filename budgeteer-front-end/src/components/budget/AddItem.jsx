@@ -41,6 +41,7 @@ export default class AddItem extends Component {
           size="small"
           value={this.state.name}
           onChange={this.handleChange}
+          required
         />
         <TextField
           type="number"
@@ -49,6 +50,7 @@ export default class AddItem extends Component {
           size="small"
           value={this.state.cost_per_month}
           onChange={this.handleChange}
+          required
         />
         <TextField
           type="number"
@@ -57,6 +59,7 @@ export default class AddItem extends Component {
           size="small"
           value={this.state.assign_money}
           onChange={this.handleChange}
+          required
         />
         <Button type="submit" variant="contained" onChange={this.handleChange}>
           Add

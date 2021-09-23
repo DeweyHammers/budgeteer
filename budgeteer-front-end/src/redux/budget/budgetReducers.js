@@ -1,21 +1,22 @@
 const budget = {
   budget: [],
   categories: [],
-  loading_budget: false,
-  errors_budget: false,
+  budget_loading: false,
+  budget_errors: false,
 };
 
 const budgetReducers = (state = budget, action) => {
   switch (action.type) {
-    case "LOADING_BUDGET":
+    case "BUDGET_LOADING":
       return {
         ...state,
-        loading_budget: true,
+        budget_loading: true,
       };
     case "GET_BUDGET":
+      const sortedItems = action.budget.sort((a, b) => a.id - b.id);
       return {
         ...state,
-        budget: action.budget,
+        budget: sortedItems,
       };
     case "LOAD_BUDGET_CATEGORIES":
       const categories = state.budget.map((item) => item.category);
@@ -36,8 +37,8 @@ const budgetReducers = (state = budget, action) => {
       return {
         ...state,
         budget: [...state.budget, action.item],
-        loading_budget: false,
-        errors_budget: false,
+        budget_loading: false,
+        budget_errors: false,
       };
     case "EDIT_ITEM":
       return {
@@ -57,8 +58,8 @@ const budgetReducers = (state = budget, action) => {
             }
           }),
         ],
-        loading_budget: false,
-        errors_budget: false,
+        budget_loading: false,
+        budget_errors: false,
       };
     case "EDIT_CATEGORY":
       return {
@@ -68,15 +69,15 @@ const budgetReducers = (state = budget, action) => {
             category === action.category ? action.name : category
           ),
         ],
-        loading_budget: false,
-        errors_budget: false,
+        budget_loading: false,
+        budget_errors: false,
       };
     case "REMOVE_ITEM":
       return {
         ...state,
         budget: [...state.budget.filter((item) => item.id !== action.id)],
-        loading_budget: false,
-        errors_budget: false,
+        budget_loading: false,
+        budget_errors: false,
       };
     case "REMOVE_CATEGORY":
       return {
@@ -86,21 +87,26 @@ const budgetReducers = (state = budget, action) => {
             (category) => category !== action.category
           ),
         ],
-        loading_budget: false,
-        errors_budget: false,
+        budget_loading: false,
+        budget_errors: false,
       };
     case "CLEAR_BUDGET":
       return {
         budget: [],
         categories: [],
-        loading_budget: false,
-        errors_budget: false,
+        budget_loading: false,
+        budget_errors: false,
       };
     case "BUDGET_ERROR":
       return {
         ...state,
-        loading_budget: false,
-        errors_budget: true,
+        budget_loading: false,
+        budget_errors: action.errors,
+      };
+    case "CLOSE_BUDGET_ERROR":
+      return {
+        ...state,
+        budget_errors: false,
       };
     default:
       return state;

@@ -33,12 +33,17 @@ class AssignMoney extends Component {
       this.props.editUser(this.props.user);
       this.props.handleShowAssignMoney();
     } else {
+      let amount = this.state.amount;
+      if (amount === "") {
+        amount = 0;
+      }
       if (this.props.user.assign_money >= this.state.amount) {
+        console.log(this.state.amount && true);
         const item = this.props.budget.filter(
           (item) => item.id === this.state.payee
         )[0];
-        item.amount += parseInt(this.state.amount, 10);
-        this.props.user.assign_money -= parseInt(this.state.amount, 10);
+        item.amount += parseInt(amount, 10);
+        this.props.user.assign_money -= parseInt(amount, 10);
         this.props.editItem(item);
         this.props.editUser(this.props.user);
         this.props.user.assign_money === 0 &&
@@ -95,6 +100,7 @@ class AssignMoney extends Component {
             label="Payee"
             name="payee"
             onChange={this.handleChange}
+            required
           >
             {this.renderAssignAll()}
             {this.renderItems()}

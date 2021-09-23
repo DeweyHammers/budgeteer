@@ -1,44 +1,50 @@
-const user = { user: {}, loggedIn: false, loading: false, errors: false };
+const user = {
+  user: {},
+  loggedIn: false,
+  user_loading: false,
+  user_errors: false,
+};
 
 const userReducers = (state = user, action) => {
   switch (action.type) {
     case "LOADING_USER":
       return {
         ...state,
-        loading: true,
+        user_loading: true,
       };
     case "LOGIN_USER":
       return {
         ...state,
         user: action.user,
         loggedIn: true,
-        loading: false,
-        errors: false,
+        user_loading: false,
+        user_errors: false,
       };
     case "UPDATE_USER":
       return {
         ...state,
         user: action.user,
-        loading: false,
-        errors: false,
+        user_loading: false,
+        user_errors: false,
       };
     case "LOGOUT_USER":
       return {
         ...state,
         user: {},
         loggedIn: false,
+        user_loading: false,
+        user_errors: false,
       };
     case "USER_ERROR":
       return {
         ...state,
-        loggedIn: false,
-        loading: false,
-        errors: action.errors,
+        user_loading: false,
+        user_errors: action.errors,
       };
-    case "CLOSE_ERROR":
+    case "CLOSE_USER_ERROR":
       return {
         ...state,
-        errors: false,
+        user_errors: false,
       };
     default:
       return state;

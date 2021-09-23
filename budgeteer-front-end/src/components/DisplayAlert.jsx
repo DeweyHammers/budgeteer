@@ -2,21 +2,23 @@ import React from "react";
 import { Snackbar } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
-const DisplayAlert = ({ show, message, handleClose }) => {
-  const vertical = "top";
-  const horizontal = "right";
-
+const DisplayAlert = ({
+  show,
+  message,
+  handleClose,
+  vertical,
+  horizontal,
+  marginRight,
+}) => {
   const handleClick = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
     handleClose();
   };
 
   return (
     <div>
-      {console.log(show)}
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         open={show}
@@ -25,7 +27,7 @@ const DisplayAlert = ({ show, message, handleClose }) => {
         key={vertical + horizontal}
       >
         <Alert
-          style={{ marginRight: "195px", marginTop: "20px" }}
+          style={{ marginRight: marginRight, marginTop: "20px" }}
           variant="filled"
           onClose={handleClick}
           severity="error"

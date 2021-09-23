@@ -82,6 +82,7 @@ export default class AddTransaction extends Component {
           type="text"
           value={this.state.name}
           onChange={this.handleChange}
+          required
         />
         <FormControl size="small" sx={{ minWidth: 120 }}>
           <InputLabel id="select-label">Payee</InputLabel>
@@ -92,6 +93,7 @@ export default class AddTransaction extends Component {
             label="Payee"
             name="payee"
             onChange={this.handleChange}
+            required
           >
             <MenuItem value={this.props.account}>{this.props.account}</MenuItem>
             {this.renderItems()}

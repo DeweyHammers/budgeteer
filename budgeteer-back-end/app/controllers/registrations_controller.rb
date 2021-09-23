@@ -13,7 +13,10 @@ class RegistrationsController < ApplicationController
         user: { id: user.id, username: user.username, email: user.email, assign_money: user.assign_money }
       }
     else
-      render json: { status: 500 }
+      render json: { 
+        status: 500,
+        errors: user.errors.full_messages
+      }
     end
   end
 end

@@ -4,22 +4,22 @@ import fetchEditItem from "../../providers/budget/fetchEditItem";
 
 export const addItem = (item) => {
   return (dispatch) => {
-    dispatch({ type: "LOADING_BUDGET" });
+    dispatch({ type: "BUDGET_LOADING" });
     fetchAddItem(item).then((data) => {
       data.status !== 500
         ? dispatch({ type: "ADD_ITEM", item: data.budget })
-        : dispatch({ type: "BUDGET_ERROR" });
+        : dispatch({ type: "BUDGET_ERROR", errors: data.errors });
     });
   };
 };
 
 export const editItem = (item) => {
   return (dispatch) => {
-    dispatch({ type: "LOADING_BUDGET" });
+    dispatch({ type: "BUDGET_LOADING" });
     fetchEditItem(item).then((data) => {
       data.status !== 500
         ? dispatch({ type: "EDIT_ITEM", item: data.budget })
-        : dispatch({ type: "BUDGET_ERROR" });
+        : dispatch({ type: "BUDGET_ERROR", errors: data.errors });
     });
   };
 };
@@ -32,52 +32,55 @@ export const addCategory = (name) => {
 };
 
 export const editCategory = (category, name, items) => {
-  let errors = false;
-  return async (dispatch) => {
-    dispatch({ type: "LOADING_BUDGET" });
-    await items.map((item) => {
-      item.category = name;
-      return fetchEditItem(item).then((data) => {
-        if (data.status === 500) {
-          errors = true;
-          dispatch({ type: "BUDGET_ERROR" });
+  return (dispatch) => {
+    dispatch({ type: "BUDGET_LOADING" });
+    items.map((item) => {
+      const editItem = JSON.parse(JSON.stringify(item));
+      editItem.category = name;
+      return fetchEditItem(editItem).then((data) => {
+        if (data.status !== 500) {
+          dispatch({ type: "EDIT_CATEGORY", name, category });
+        } else {
+          dispatch({ type: "BUDGET_ERROR", errors: data.errors });
         }
       });
     });
-    !errors && dispatch({ type: "EDIT_CATEGORY", name, category });
   };
 };
 
 export const removeCategory = (category, items) => {
-  let errors = false;
-  return async (dispatch) => {
-    dispatch({ type: "LOADING_BUDGET" });
-    await items.map((item) =>
+  return (dispatch) => {
+    dispatch({ type: "BUDGET_LOADING" });
+    items.map((item) =>
       fetchRemoveItem(item.id).then((data) => {
-        if (data.status === 500) {
-          errors = true;
-          dispatch({ type: "BUDGET_ERROR" });
+        if (data.status !== 500) {
+          dispatch({ type: "REMOVE_CATEGORY", category });
+          items.map((item) => dispatch({ type: "REMOVE_ITEM", id: item.id }));
+        } else {
+          dispatch({ type: "BUDGET_ERROR", errors: data.errors });
         }
       })
     );
-    if (!errors) {
-      dispatch({ type: "REMOVE_CATEGORY", category });
-      items.map((item) => dispatch({ type: "REMOVE_ITEM", id: item.id }));
-    }
   };
 };
 
 export const removeItem = (item, category) => {
   return (dispatch) => {
-    dispatch({ type: "LOADING_BUDGET" });
+    dispatch({ type: "BUDGET_LOADING" });
     fetchRemoveItem(item.id).then((data) => {
       if (data.status !== 500) {
         dispatch({ type: "REMOVE_ITEM", id: item.id });
         category.length === 1 &&
           dispatch({ type: "REMOVE_CATEGORY", category: item.category });
       } else {
-        dispatch({ type: "BUDGET_ERROR" });
+        dispatch({ type: "BUDGET_ERROR", errors: data.errors });
       }
     });
+  };
+};
+
+export const closeBudgetError = () => {
+  return {
+    type: "CLOSE_BUDGET_ERROR",
   };
 };

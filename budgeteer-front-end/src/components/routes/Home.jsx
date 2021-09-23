@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { closeError } from "../../redux/user/userActions";
+import { closeUserError } from "../../redux/user/userActions";
 import Registration from "../auth/Registration";
 import Login from "../auth/Login";
 import {
@@ -27,18 +27,21 @@ class Home extends Component {
   };
 
   handleCloseError = () => {
-    this.props.closeError();
+    this.props.closeUserError();
   };
 
   render() {
     return (
       <Grid container className={classes.container}>
         <CssBaseline />
-        {this.props.errors && (
+        {this.props.user_errors && (
           <DisplayAlert
-            show={this.props.errors}
+            show={this.props.user_errors}
             handleClose={this.handleCloseError}
-            message="There was an error with your request"
+            message={this.props.user_errors}
+            vertical="top"
+            horizontal="right"
+            marginRight="195px"
           />
         )}
         <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -49,7 +52,7 @@ class Home extends Component {
             <Grid container>
               <Grid item xs={1} />
               <Grid item xs={11}>
-                {this.props.loading && <LinearProgress />}
+                {this.props.user_loading && <LinearProgress />}
                 <Grid container className={classes.link}>
                   <Grid item xs={6}>
                     <Grid container>
@@ -84,8 +87,8 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { loggedIn, loading, errors } = state.userReducers;
-  return { loggedIn, loading, errors };
+  const { loggedIn, user_loading, user_errors } = state.userReducers;
+  return { loggedIn, user_loading, user_errors };
 };
 
-export default connect(mapStateToProps, { closeError })(Home);
+export default connect(mapStateToProps, { closeUserError })(Home);

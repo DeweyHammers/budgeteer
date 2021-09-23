@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import NavBar from "../NavBar";
+import User from "../user/User";
+import styles from "./styles/Profile.module.css";
 import { connect } from "react-redux";
+import { Typography } from "@material-ui/core";
 
 class Profile extends Component {
   componentDidMount() {
@@ -19,7 +22,20 @@ class Profile extends Component {
     return (
       <div>
         <NavBar showDashboard={this.handleClickToDashboard} />
-        PROFILE PAGE
+        <User
+          user={this.props.user}
+          budget={this.props.budget}
+          transactions={this.props.transactions}
+          categories={this.props.categories}
+          accounts={this.props.accounts}
+        />
+        <Typography
+          className={styles.footer}
+          variant="overline"
+          display="block"
+        >
+          Copyright © Budgeteer 2021
+        </Typography>
       </div>
     );
   }
@@ -27,7 +43,16 @@ class Profile extends Component {
 
 const mapStateToProps = (state) => {
   const { user, loggedIn } = state.userReducers;
-  return { user, loggedIn };
+  const { budget, categories } = state.budgetReducers;
+  const { transactions, accounts } = state.transactionReducers;
+  return {
+    user,
+    loggedIn,
+    budget,
+    transactions,
+    categories,
+    accounts,
+  };
 };
 
 export default connect(mapStateToProps)(Profile);

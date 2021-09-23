@@ -7,7 +7,10 @@ class BudgetsController < ApplicationController
         budget: budget 
       }
     else 
-      render json: { status: 500 }
+      render json: { 
+        status: 500,
+        errors: budget.errors.full_messages 
+      }
     end
   end
 
@@ -19,7 +22,10 @@ class BudgetsController < ApplicationController
         budget: budget
       }
     else
-      render json: { status: 500 }
+      render json: { 
+      status: 500,
+      errors: budget.errors.full_messages 
+      }
     end
   end
 
@@ -28,7 +34,10 @@ class BudgetsController < ApplicationController
     if budget.destroy 
       render json: { status: 200 }
     else
-      render json: { status: 500 }
+      render json: { 
+        status: 500,
+        errors: budget.errors.full_messages 
+      }
     end
   end
 

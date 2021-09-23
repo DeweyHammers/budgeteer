@@ -11,7 +11,10 @@ class TransactionsController < ApplicationController
         manifests: transaction.manifests
       }
     else 
-      render json: { status: 500 }
+      render json: { 
+        status: 500,
+        errors: transaction.errors.full_messages 
+      }
     end
   end
 
@@ -23,7 +26,10 @@ class TransactionsController < ApplicationController
         transaction: transaction
       }
     else
-      render json: { status: 500 }
+      render json: { 
+        sstatus: 500,
+        errors: transaction.errors.full_messages 
+       }
     end
   end
 
@@ -32,7 +38,10 @@ class TransactionsController < ApplicationController
     if transaction.destroy
       render json: { status: 200 }
     else
-      render json: { status: 500 }
+      render json: { 
+        status: 500,
+        errors: transaction.errors.full_messages 
+      }
     end
   end
 

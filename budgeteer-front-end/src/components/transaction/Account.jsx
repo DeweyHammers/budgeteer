@@ -54,11 +54,7 @@ class Account extends Component {
   };
 
   handleEditAccount = (name) => {
-    this.props.editAccount(name, this.props.account);
-    this.props.transactions.map((transaction) => {
-      transaction.account = name;
-      return this.props.editTransaction(transaction);
-    });
+    this.props.editAccount(name, this.props.account, this.props.transactions);
   };
 
   handleRemoveAccount = () => {

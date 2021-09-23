@@ -20,15 +20,18 @@ class Dashboard extends Component {
     this.props.history.push("/profile");
   };
 
+  handleAssignTransaction = () => {
+    const transactions = this.props.transactions.filter(
+      (transaction) => transaction.account === this.props.showAccount
+    );
+    return transactions;
+  };
+
   render() {
     return (
       <div>
         <div style={{ marginBottom: 100 }}>
-          <NavBar
-            loadingBudget={this.props.loading_budget}
-            loadingTransaction={this.props.loading_transactions}
-            showProfile={this.handleClickToProfile}
-          />
+          <NavBar showProfile={this.handleClickToProfile} />
           <Grid container className={styles.container}>
             <Grid item xs={false} sm={4} md={4}>
               <Accounts />
@@ -39,10 +42,7 @@ class Dashboard extends Component {
               ) : (
                 <Account
                   account={this.props.showAccount}
-                  transactions={this.props.transactions.filter(
-                    (transaction) =>
-                      transaction.account === this.props.showAccount
-                  )}
+                  transactions={this.handleAssignTransaction()}
                   showBudget={this.handleShowTransactions}
                 />
               )}
@@ -50,7 +50,7 @@ class Dashboard extends Component {
           </Grid>
         </div>
         <Typography
-          style={{ textAlign: "center" }}
+          className={styles.footer}
           variant="overline"
           display="block"
         >
@@ -63,16 +63,12 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
   const { user, loggedIn } = state.userReducers;
-  const { transactions, showAccount, loading_transactions } =
-    state.transactionReducers;
-  const { loading_budget } = state.budgetReducers;
+  const { transactions, showAccount } = state.transactionReducers;
   return {
     user,
     loggedIn,
     transactions,
     showAccount,
-    loading_budget,
-    loading_transactions,
   };
 };
 

@@ -2,22 +2,25 @@ const transactions = {
   transactions: [],
   accounts: [],
   showAccount: false,
-  loading_transactions: false,
-  errors_transactions: false,
+  transactions_loading: false,
+  transactions_errors: false,
 };
 
 const transactionReducers = (state = transactions, action) => {
   switch (action.type) {
-    case "LOADING_TRANSACTION":
+    case "TRANSACTION_LOADING":
       return {
         ...state,
-        loading_transactions: true,
-        errors_transactions: false,
+        transactions_loading: true,
+        transactions_errors: false,
       };
     case "GET_TRANSACTION":
+      const sortedTransactions = action.transactions.sort(
+        (a, b) => a.id - b.id
+      );
       return {
         ...state,
-        transactions: action.transactions,
+        transactions: sortedTransactions,
       };
     case "LOAD_TRANSACTION_ACCOUNTS": {
       const accounts = state.transactions.map(
@@ -52,8 +55,8 @@ const transactionReducers = (state = transactions, action) => {
       return {
         ...state,
         transactions: [...state.transactions, action.transaction],
-        loading_transactions: false,
-        errors_transactions: false,
+        transactions_loading: false,
+        transactions_errors: false,
       };
     case "UPDATE_TRANSACTION":
       return {
@@ -71,8 +74,8 @@ const transactionReducers = (state = transactions, action) => {
             }
           }),
         ],
-        loading_transactions: false,
-        errors_transactions: false,
+        transactions_loading: false,
+        transactions_errors: false,
       };
     case "EDIT_ACCOUNT":
       return {
@@ -82,8 +85,8 @@ const transactionReducers = (state = transactions, action) => {
             account === action.account ? action.name : account
           ),
         ],
-        loading_transactions: false,
-        errors_transactions: false,
+        transactions_loading: false,
+        transactions_errors: false,
       };
     case "REMOVE_TRANSACTION":
       return {
@@ -93,8 +96,8 @@ const transactionReducers = (state = transactions, action) => {
             (transaction) => transaction.id !== action.transaction.id
           ),
         ],
-        loading_transactions: false,
-        errors_transactions: false,
+        transactions_loading: false,
+        transactions_errors: false,
       };
     case "REMOVE_ACCOUNT":
       return {
@@ -102,21 +105,27 @@ const transactionReducers = (state = transactions, action) => {
         accounts: [
           ...state.accounts.filter((account) => account !== action.account),
         ],
-        loading_transactions: false,
-        errors_transactions: false,
+        transactions_loading: false,
+        transactions_errors: false,
       };
     case "CLEAR_TRANSACTION":
       return {
         ...state,
         transactions: [],
         accounts: [],
-        loading_transactions: false,
-        errors_transactions: false,
+        transactions_loading: false,
+        transactions_errors: false,
       };
     case "TRANSACTION_ERROR":
       return {
         ...state,
-        errors_transactions: true,
+        transactions_loading: false,
+        transactions_errors: action.errors,
+      };
+    case "CLOSE_TRANSACTION_ERROR":
+      return {
+        ...state,
+        transactions_errors: false,
       };
     default:
       return state;
